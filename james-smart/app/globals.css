@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Montserrat', system-ui, sans-serif;
+  --font-serif: 'Cormorant', Georgia, serif;
+
+  --color-gold: #CA8A04;
+  --color-gold-light: #FEF3C7;
+  --color-gold-dark: #92400E;
+  --color-charcoal: #1C1917;
+  --color-charcoal-soft: #292524;
+  --color-warm: #44403C;
+  --color-cream: #FAFAF9;
+  --color-cream-dark: #F5F0EB;
+  --color-muted: #78716C;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #FAFAF9; }
+::-webkit-scrollbar-thumb { background: #CA8A04; border-radius: 3px; }
+
+/* ─── Selection ─────────────────────────────────────── */
+::selection { background: #FEF3C7; color: #1C1917; }
+
+/* ─── Base ──────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: #FAFAF9;
+  color: #1C1917;
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* ─── Keyframes ─────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes lineGrow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes counterUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(8px); }
+}
+
+/* ─── Utilities ─────────────────────────────────────── */
+@layer utilities {
+  .animate-fade-in-up  { animation: fadeInUp 0.7s cubic-bezier(0.16,1,0.3,1) both; }
+  .animate-fade-in     { animation: fadeIn  0.6s ease both; }
+  .animate-slide-left  { animation: slideInLeft 0.7s cubic-bezier(0.16,1,0.3,1) both; }
+  .animate-slide-right { animation: slideInRight 0.7s cubic-bezier(0.16,1,0.3,1) both; }
+  .animate-scale-in    { animation: scaleIn 0.6s cubic-bezier(0.16,1,0.3,1) both; }
+  .animate-marquee     { animation: marquee 28s linear infinite; }
+  .animate-scroll-bounce { animation: scrollBounce 1.5s ease-in-out infinite; }
+
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+  .delay-600 { animation-delay: 600ms; }
+  .delay-700 { animation-delay: 700ms; }
+
+  .text-balance { text-wrap: balance; }
+
+  /* Gold shimmer effect */
+  .gold-shimmer {
+    background: linear-gradient(90deg, #CA8A04 0%, #FDE68A 50%, #CA8A04 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  /* Glass morphism */
+  .glass {
+    background: rgba(250, 250, 249, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(202, 138, 4, 0.15);
+  }
+
+  /* Gold gradient border */
+  .border-gold-gradient {
+    border-image: linear-gradient(135deg, #CA8A04, #FDE68A, #CA8A04) 1;
+  }
+
+  /* Section padding */
+  .section-padding { padding-top: 5rem; padding-bottom: 5rem; }
+  @media (min-width: 1024px) {
+    .section-padding { padding-top: 7rem; padding-bottom: 7rem; }
+  }
+}
+
+/* ─── Reduced Motion ────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
