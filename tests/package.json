@@ -1,0 +1,13 @@
+{
+  "name": "movi-tests",
+  "private": true,
+  "scripts": {
+    "e2e:demo": "node e2e-demo.cjs",
+    "e2e:live": "node e2e-live.cjs",
+    "schema": "node schema.test.mjs"
+  },
+  "devDependencies": {
+    "@supabase/supabase-js": "2.45.4",
+    "playwright": "1.56.1"
+  }
+}
