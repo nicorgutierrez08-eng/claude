@@ -1,0 +1,277 @@
+The Godfather|1972
+The Godfather Part II|1974
+The Shawshank Redemption|1994
+Pulp Fiction|1994
+The Dark Knight|2008
+Schindler's List|1993
+Forrest Gump|1994
+Fight Club|1999
+Inception|2010
+The Matrix|1999
+Goodfellas|1990
+Interstellar|2014
+The Silence of the Lambs|1991
+Se7en|1995
+Saving Private Ryan|1998
+The Green Mile|1999
+Gladiator|2000
+The Departed|2006
+The Prestige|2006
+Whiplash|2014
+The Lion King|1994
+Back to the Future|1985
+Alien|1979
+Aliens|1986
+Apocalypse Now|1979
+Casablanca|1942
+Citizen Kane|1941
+Psycho|1960
+Vertigo|1958
+Rear Window|1954
+Sunset Boulevard|1950
+Singin' in the Rain|1952
+The Wizard of Oz|1939
+Gone with the Wind|1939
+It's a Wonderful Life|1946
+12 Angry Men|1957
+To Kill a Mockingbird|1962
+Lawrence of Arabia|1962
+2001: A Space Odyssey|1968
+Dr. Strangelove|1964
+A Clockwork Orange|1971
+The Shining|1980
+Taxi Driver|1976
+Raging Bull|1980
+Jaws|1975
+Star Wars|1977
+The Empire Strikes Back|1980
+Return of the Jedi|1983
+Raiders of the Lost Ark|1981
+E.T. the Extra-Terrestrial|1982
+Blade Runner|1982
+The Terminator|1984
+Terminator 2: Judgment Day|1991
+Die Hard|1988
+Jurassic Park|1993
+Titanic|1997
+Toy Story|1995
+Toy Story 2|1999
+Toy Story 3|2010
+Finding Nemo|2003
+The Incredibles|2004
+Ratatouille|2007
+WALL-E|2008
+Up|2009
+Inside Out|2015
+Coco|2017
+Monsters, Inc.|2001
+Shrek|2001
+Frozen|2013
+The Little Mermaid|1989
+Beauty and the Beast|1991
+Aladdin|1992
+The Truman Show|1998
+American Beauty|1999
+Fargo|1996
+The Big Lebowski|1998
+No Country for Old Men|2007
+There Will Be Blood|2007
+Reservoir Dogs|1992
+Kill Bill: Volume 1|2003
+Kill Bill: Volume 2|2004
+Inglourious Basterds|2009
+Django Unchained|2012
+Once Upon a Time in Hollywood|2019
+The Social Network|2010
+Gone Girl|2014
+Zodiac|2007
+Memento|2000
+Batman Begins|2005
+The Dark Knight Rises|2012
+Dunkirk|2017
+Tenet|2020
+Oppenheimer|2023
+Barbie|2023
+Everything Everywhere All at Once|2022
+Get Out|2017
+Us|2019
+Nope|2022
+La La Land|2016
+Moonlight|2016
+Lady Bird|2017
+Little Women|2019
+Black Swan|2010
+Requiem for a Dream|2000
+Eternal Sunshine of the Spotless Mind|2004
+Lost in Translation|2003
+Her|2013
+Drive|2011
+Mad Max: Fury Road|2015
+Blade Runner 2049|2017
+Arrival|2016
+Dune|2021
+Dune: Part Two|2024
+Sicario|2015
+Prisoners|2013
+Joker|2019
+The Avengers|2012
+Avengers: Infinity War|2018
+Avengers: Endgame|2019
+Iron Man|2008
+Black Panther|2018
+Guardians of the Galaxy|2014
+Spider-Man: Into the Spider-Verse|2018
+Spider-Man: Across the Spider-Verse|2023
+Spider-Man: No Way Home|2021
+Spider-Man 2|2004
+Logan|2017
+Top Gun|1986
+Top Gun: Maverick|2022
+Mission: Impossible – Fallout|2018
+John Wick|2014
+Heat|1995
+The Usual Suspects|1995
+L.A. Confidential|1997
+Chinatown|1974
+One Flew Over the Cuckoo's Nest|1975
+Rocky|1976
+Annie Hall|1977
+The Deer Hunter|1978
+Platoon|1986
+Full Metal Jacket|1987
+Good Will Hunting|1997
+Dead Poets Society|1989
+The Breakfast Club|1985
+Ferris Bueller's Day Off|1986
+Stand by Me|1986
+The Princess Bride|1987
+Groundhog Day|1993
+Home Alone|1990
+Ghostbusters|1984
+Gremlins|1984
+The Goonies|1985
+Indiana Jones and the Last Crusade|1989
+The Sixth Sense|1999
+Scream|1996
+Halloween|1978
+The Exorcist|1973
+A Nightmare on Elm Street|1984
+The Thing|1982
+Hereditary|2018
+Midsommar|2019
+The Witch|2015
+It|2017
+A Quiet Place|2018
+Jaws 2|1978
+Braveheart|1995
+Gravity|2013
+The Martian|2015
+Avatar|2009
+Avatar: The Way of Water|2022
+The Wolf of Wall Street|2013
+Catch Me If You Can|2002
+Shutter Island|2010
+The Revenant|2015
+Killers of the Flower Moon|2023
+The Irishman|2019
+Casino|1995
+Scarface|1983
+The Truman Show|1998
+Amadeus|1984
+The Sound of Music|1965
+West Side Story|1961
+Mary Poppins|1964
+Ben-Hur|1959
+Some Like It Hot|1959
+North by Northwest|1959
+The Graduate|1967
+Bonnie and Clyde|1967
+Butch Cassidy and the Sundance Kid|1969
+Midnight Cowboy|1969
+The French Connection|1971
+Network|1976
+Kramer vs. Kramer|1979
+Ordinary People|1980
+Rain Man|1988
+Dances with Wolves|1990
+Unforgiven|1992
+Million Dollar Baby|2004
+Slumdog Millionaire|2008
+The King's Speech|2010
+Argo|2012
+12 Years a Slave|2013
+Birdman|2014
+Spotlight|2015
+The Shape of Water|2017
+Green Book|2018
+Nomadland|2020
+CODA|2021
+The Grand Budapest Hotel|2014
+Moonrise Kingdom|2012
+Fantastic Mr. Fox|2009
+The Royal Tenenbaums|2001
+Little Miss Sunshine|2006
+Juno|2007
+Superbad|2007
+Mean Girls|2004
+Clueless|1995
+The Hangover|2009
+Bridesmaids|2011
+Anchorman: The Legend of Ron Burgundy|2004
+Step Brothers|2008
+Napoleon Dynamite|2004
+Pirates of the Caribbean: The Curse of the Black Pearl|2003
+Harry Potter and the Sorcerer's Stone|2001
+Harry Potter and the Prisoner of Azkaban|2004
+Harry Potter and the Deathly Hallows – Part 2|2011
+The Lord of the Rings: The Fellowship of the Ring|2001
+The Lord of the Rings: The Two Towers|2002
+The Lord of the Rings: The Return of the King|2003
+The Hunger Games|2012
+Twilight|2008
+The Notebook|2004
+Pretty Woman|1990
+When Harry Met Sally...|1989
+Dirty Dancing|1987
+Grease|1978
+Edward Scissorhands|1990
+Beetlejuice|1988
+Batman|1989
+Superman|1978
+The Fugitive|1993
+Speed|1994
+Men in Black|1997
+Independence Day|1996
+The Fifth Element|1997
+Minority Report|2002
+Children of Men|2006
+District 9|2009
+Ex Machina|2014
+Parasite|2019
+Knives Out|2019
+Uncut Gems|2019
+Marriage Story|2019
+1917|2019
+Ford v Ferrari|2019
+The Holdovers|2023
+Past Lives|2023
+Poor Things|2023
+Anatomy of a Fall|2023
+The Banshees of Inisherin|2022
+Tár|2022
+The Fabelmans|2022
+Elvis|2022
+Glass Onion: A Knives Out Mystery|2022
+Puss in Boots: The Last Wish|2022
+Avengers: Age of Ultron|2015
+Wonder Woman|2017
+Deadpool|2016
+Thor: Ragnarok|2017
+Zootopia|2016
+Moana|2016
+Encanto|2021
+Soul|2020
+Turning Red|2022
+Elemental|2023
+Wonka|2023
+John Wick: Chapter 4|2023
