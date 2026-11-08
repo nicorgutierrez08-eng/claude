@@ -26,7 +26,9 @@ export const allFilms = () => DB.films;
 export const genres = () => DB.genres;
 export const film = (id) => DB.films[id];
 export const isFilmId = (id) => Number.isInteger(id) && id >= 0 && id < DB.films.length;
-export const posterUrl = (f) => (!f.poster ? "" : f.poster.startsWith("http") ? f.poster : DB.posterBase + f.poster);
+const TMDB_IMG = "https://image.tmdb.org/t/p/w342";
+export const posterUrl = (f) =>
+  !f.poster ? "" : f.poster[0] === "~" ? TMDB_IMG + f.poster.slice(1) : f.poster.startsWith("http") ? f.poster : DB.posterBase + f.poster;
 export const genreNames = (f) => f.g.map((i) => DB.genres[i]);
 export const genreIndex = (name) => DB.genres.indexOf(name);
 

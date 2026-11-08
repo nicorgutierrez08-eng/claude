@@ -77,8 +77,15 @@ def clean_extract(text, limit=700):
     return cut[: end + 1] if end > 200 else cut.rstrip() + "…"
 
 
+def load_tmdb():
+    # Poster paths from tools/fetch_tmdb_posters.py; stored as "~/path.jpg" and served from TMDB's image CDN.
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tmdb_posters.json")
+    return json.load(open(path, encoding="utf-8")) if os.path.exists(path) else {}
+
+
 def main(src, out):
     raw = json.load(open(src, encoding="utf-8"))
+    tmdb = load_tmdb()
     canon = load_canon()
     seen = set()
     films = []
@@ -100,6 +107,8 @@ def main(src, out):
     index, shards = [], {}
     for fid, (pop, m, genres) in enumerate(films):
         poster = m.get("thumbnail") or ""
+        if tmdb.get(f"{m['title']}|{m['year']}"):
+            poster = "~" + tmdb[f"{m['title']}|{m['year']}"]
         if "/thumb/" in poster:
             # Wikimedia only serves thumbnails at standard widths; 320px now returns 400.
             poster = re.sub(r"/\d+px-([^/]+)$", r"/330px-\1", poster)

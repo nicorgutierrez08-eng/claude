@@ -170,7 +170,7 @@ export function renderSettings(view) {
       <div class="settings"><button class="btn sm" data-act="sign-out">${ICON.logout} Sign out</button><button class="btn sm danger" data-act="delete-account">${ICON.trash} Delete account</button>
       ${demo ? `<button class="btn sm ghost" data-act="reset-demo">Reset demo data</button>` : ""}</div>
     </div>
-    <p class="muted small center-t">Film data and posters from Wikipedia (CC BY-SA). ${demo ? "Running in demo mode." : "Connected to Supabase."}</p>`;
+    <p class="muted small center-t">Film data from Wikipedia (CC BY-SA). Posters from TMDB. This product uses the TMDB API but is not endorsed or certified by TMDB. ${demo ? "Running in demo mode." : "Connected to Supabase."}</p>`;
   const pf = $("#prof-form");
   pf.avatar_hue.addEventListener("input", () => { $("#av-prev").innerHTML = avatarHTML({ ...me, display_name: pf.display_name.value, avatar_hue: Number(pf.avatar_hue.value) }, 72); });
   pf.username.addEventListener("input", () => { pf.username.value = pf.username.value.toLowerCase().replace(/[^a-z0-9_.]/g, ""); });

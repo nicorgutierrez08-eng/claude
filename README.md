@@ -121,6 +121,15 @@ curl -o /tmp/movies.json https://raw.githubusercontent.com/prust/wikipedia-movie
 python3 tools/build_movie_db.py /tmp/movies.json docs/data
 ```
 
-`tools/canon.txt` is a hand-picked list of well-known films that the build script puts near the top of Discover and search. Film data and posters come from Wikipedia under CC BY-SA, via [wikipedia-movie-data](https://github.com/prust/wikipedia-movie-data). It mostly covers American films up to 2023.
+Posters come from TMDB where it has a match (most films), falling back to Wikipedia's poster. To refresh them, get a free API key at themoviedb.org (Settings → API), then:
+
+```bash
+TMDB_API_KEY=your_key python3 tools/fetch_tmdb_posters.py   # fills tools/tmdb_posters.json (resumable)
+python3 tools/build_movie_db.py /tmp/movies.json docs/data
+```
+
+The key is only used by this script; it never goes into the website. This product uses the TMDB API but is not endorsed or certified by TMDB.
+
+`tools/canon.txt` is a hand-picked list of well-known films that the build script puts near the top of Discover and search. Film data comes from Wikipedia under CC BY-SA, via [wikipedia-movie-data](https://github.com/prust/wikipedia-movie-data). It mostly covers American films up to 2023.
 
 Each film's ID is its position in the database, and rankings are saved by that ID. If you rebuild the database after people have ranked films, check that existing films keep their positions.
