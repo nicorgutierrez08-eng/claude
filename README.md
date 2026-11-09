@@ -13,7 +13,7 @@ The app lives in [`docs/`](docs/). It's plain HTML, CSS and JavaScript modules w
 - **Gut check, then head-to-heads.** You say whether you loved a film, thought it was fine, or didn't like it, then pick between it and films you've already ranked. Placing a film takes about log₂(n) picks, around 5 for a 30-film list. There's a "Too close to call" button and a Back button.
 - **Scores build themselves** from a film's position in your list. Loved films score 6.8–10, fine ones 3.4–6.7, and films you didn't like 0–3.3.
 - **Watch details on every film:** date watched, where (Theater, Streaming, Home, TV, Plane), who you watched it with, a rewatch flag and notes.
-- **Re-rank or remove** any film. A quick-add search lets you rank from anywhere (the gold **+**).
+- **Re-rank or remove** any film. A quick-add search lets you rank from anywhere (the red **+**).
 
 **Lists**
 - **Been**, your ranked list. Filter by Loved / Fine / Didn't like, genre, decade and year watched. Sort by rank, recently ranked, recently watched, release year or title, or search within the list.
