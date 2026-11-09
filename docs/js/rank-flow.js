@@ -143,7 +143,7 @@ function render() {
 }
 
 function sparks() {
-  const colors = ["#e2a514", "#fde68a", "#f3f1ea", "#34d399"];
+  const colors = ["#e5484d", "#ff8589", "#f2f0ee", "#6fdcb0"];
   for (let i = 0; i < 28; i++) {
     const s = document.createElement("i");
     s.className = "spark";

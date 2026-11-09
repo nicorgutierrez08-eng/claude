@@ -23,7 +23,7 @@ export async function renderLeaderboard(view) {
     return;
   }
   const meIdx = list.findIndex((p) => p.id === S.me?.id);
-  box.innerHTML = `${meIdx >= 0 ? `<div class="banner gold">${ICON.trophy} You're #${meIdx + 1} ${boardTab === "following" ? "among friends" : "on Movi"} with ${list[meIdx].ranked_count} films ranked</div>` : ""}
+  box.innerHTML = `${meIdx >= 0 ? `<div class="banner accent">${ICON.trophy} You're #${meIdx + 1} ${boardTab === "following" ? "among friends" : "on Movi"} with ${list[meIdx].ranked_count} films ranked</div>` : ""}
     <ol class="board">${list.map((p, i) => `<li class="${p.id === S.me?.id ? "me" : ""}"><span class="place p${i + 1}">${i + 1}</span>
       <a class="urow-main" href="${userHref(p)}">${avatarHTML(p, 42)}<span><b>${esc(p.display_name || p.username)}</b>${demoTag(p)}<small>@${esc(p.username)}</small></span></a>
       <span class="count-big">${p.ranked_count}<small>ranked</small></span></li>`).join("")}</ol>`;
