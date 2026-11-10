@@ -26,7 +26,7 @@ export async function renderDiscover(view) {
           <div class="row"><button class="btn primary" data-act="quick-add">${ICON.plus} Rank a film</button><a class="btn" href="#/together">${ICON.users} Watch together</a></div></div>`;
 
   const topLoved = me && S.lists.loved[0] != null ? film(S.lists.loved[0]) : null;
-  const exclude = me ? new Set(rankedIds()) : null;
+  const exclude = me ? notNewIds() : null;
   view.innerHTML = `${hero}
     <a class="searchbar fake" href="#/search">${ICON.search}<span>Search films or people</span></a>
     ${me ? `<section class="section quick" id="quick"></section>` : ""}
@@ -38,6 +38,9 @@ export async function renderDiscover(view) {
   if (me) renderQuick();
   loadTrending();
 }
+
+// Films the user has ranked or said they're not interested in never appear as suggestions.
+const notNewIds = () => new Set([...rankedIds(), ...S.skip]);
 
 export function renderQuick() {
   const el = $("#quick");
@@ -51,12 +54,14 @@ export function renderQuick() {
 
 async function loadTrending() {
   const [top, friendRows] = await Promise.all([
-    api.topFilms(2, 24).catch(() => []),
+    api.topFilms(2, 60).catch(() => []),
     S.me ? loadFriendRows().catch(() => []) : [],
   ]);
+  const hide = S.me ? notNewIds() : new Set();
+  const topNew = top.filter((t) => !hide.has(t.film_id));
   const tbox = $("#top-movi");
-  if (tbox && top.length) {
-    tbox.innerHTML = sectionHTML("Top rated on Movi", "Highest average score across members", railHTML(top.map((t) => film(t.film_id)).filter(Boolean), (f) => {
+  if (tbox && topNew.length) {
+    tbox.innerHTML = sectionHTML("Top rated on Movi", "Highest average score across members", railHTML(topNew.map((t) => film(t.film_id)).filter(Boolean), (f) => {
       const t = top.find((x) => x.film_id === f.id);
       return { label: `${Number(t.avg_score).toFixed(1)} avg · ${t.n} members` };
     }));
@@ -66,7 +71,7 @@ async function loadTrending() {
   const since = Date.now() - 45 * 86400000;
   const agg = new Map();
   for (const r of friendRows) {
-    if (new Date(r.created_at).getTime() < since) continue;
+    if (new Date(r.created_at).getTime() < since || hide.has(r.film_id)) continue;
     const e = agg.get(r.film_id) || { id: r.film_id, n: 0, sum: 0 };
     e.n++; e.sum += Number(r.score);
     agg.set(r.film_id, e);

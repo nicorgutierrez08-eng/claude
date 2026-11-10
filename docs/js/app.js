@@ -6,7 +6,7 @@ import { avatarHTML, closeModal, modalOpen, confirmDialog, spinnerHTML, emptyHTM
 import { openFilm, closeFilm, refreshFilm, recommendDialog, shareFilm, sheetFilmId } from "./film-sheet.js";
 import { startRank, cancelRank, flowActive, flowAction, flowKey, quickAdd, quickPick, requireMe, setFlowDoneHandler } from "./rank-flow.js";
 import { renderFeed, feedMore, toggleLike, toggleComments, deleteComment, followBtnHTML } from "./views/feed.js";
-import { renderDiscover, renderQuick, renderSearch, drawResults, moreResults } from "./views/discover.js";
+import { renderDiscover, renderSearch, drawResults, moreResults } from "./views/discover.js";
 import { renderLists, shareList } from "./views/lists.js";
 import { renderProfile, showFollows, shareProfile } from "./views/profile.js";
 import { renderLeaderboard, renderNotifications, renderPeople, renderTogether, handleRequest } from "./views/social.js";
@@ -117,7 +117,7 @@ document.addEventListener("movi:signedout", () => { clearSession(); go("#/welcom
 // ---------------- Refresh after changes ----------------
 function softRefresh() {
   const n = current?.name;
-  if (n === "discover") renderQuick();
+  if (n === "discover") rerender();
   else if (n === "search") drawResults();
   else if (["lists", "onboarding", "together"].includes(n) || (n === "u" && current.args[0] === S.me?.username)) rerender();
   refreshFilm();

@@ -10,7 +10,7 @@ export const PLACES = ["Theater", "Streaming", "Home", "TV", "Plane", "Other"];
 let current = null;
 
 export function similarFilms(seed, limit = 14) {
-  const taken = new Set([seed.id, ...(S.me ? rankedIds() : [])]);
+  const taken = new Set([seed.id, ...(S.me ? [...rankedIds(), ...S.skip] : [])]);
   const out = [];
   const films = allFilms();
   for (let i = 0; i < Math.min(films.length, 6000); i++) {
