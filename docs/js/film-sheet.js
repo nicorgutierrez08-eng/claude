@@ -2,6 +2,7 @@ import { $, esc, ICON, toast, copyText, today } from "./util.js";
 import { film, details, genreNames, posterUrl, allFilms } from "./films.js";
 import { BUCKETS, recScore, genreAffinity } from "./model.js";
 import { api } from "./api/index.js";
+import { sample, softmax } from "./variety.js";
 import { S, scoreOf, isWatch, rankedCount, followingIds, loadFriendRows, friendRowsFor, myRows, updateDetails, rankedIds } from "./state.js";
 import { posterHTML, railHTML, avatarHTML, userHref, scoreHTML, openLayer, closeLayer, openModal, closeModal, demoTag } from "./ui.js";
 
@@ -9,7 +10,7 @@ export const PLACES = ["Theater", "Streaming", "Home", "TV", "Plane", "Other"];
 
 let current = null;
 
-export function similarFilms(seed, limit = 14) {
+export function similarFilms(seed, limit = 14, { vary = false } = {}) {
   const taken = new Set([seed.id, ...(S.me ? [...rankedIds(), ...S.skip] : [])]);
   const out = [];
   const films = allFilms();
@@ -20,7 +21,9 @@ export function similarFilms(seed, limit = 14) {
     if (!overlap) continue;
     out.push([f.pop / 20 + overlap * 2.5 - Math.abs(f.year - seed.year) / 12, f]);
   }
-  return out.sort((a, b) => b[0] - a[0]).slice(0, limit).map((x) => x[1]);
+  out.sort((a, b) => b[0] - a[0]);
+  if (vary) return sample(softmax(out.slice(0, limit * 6)), limit);
+  return out.slice(0, limit).map((x) => x[1]);
 }
 
 export function recommendFor(limit = 18) {
@@ -34,7 +37,8 @@ export function recommendFor(limit = 18) {
     if (taken.has(f.id) || !f.g.length) continue;
     out.push([f.pop / 20 + f.g.reduce((t, g) => t + aff[g], 0) / Math.sqrt(f.g.length), f]);
   }
-  return out.sort((a, b) => b[0] - a[0]).slice(0, limit).map((x) => x[1]);
+  out.sort((a, b) => b[0] - a[0]);
+  return sample(softmax(out.slice(0, limit * 10)), limit);
 }
 
 export async function openFilm(id) {

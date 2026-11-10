@@ -1,15 +1,28 @@
 import { $, esc, ICON, debounce } from "../util.js";
 import { film, filmCount, genres, searchFilms, topByGenre } from "../films.js";
 import { api } from "../api/index.js";
-import { S, rankedIds, rankedCount, avgScore, loadFriendRows, followingIds } from "../state.js";
+import { S, rankedIds, rankedCount, avgScore, loadFriendRows, followingIds, myRows } from "../state.js";
 import { cardHTML, railHTML, sectionHTML, emptyHTML, userRowHTML, spinnerHTML } from "../ui.js";
 import { recommendFor, similarFilms } from "../film-sheet.js";
+import { beginPage, sample, byPopularity, takeUnused } from "../variety.js";
+import { genreAffinity } from "../model.js";
 import { followBtnHTML } from "./feed.js";
 
 const GENRE_RAILS = [
-  ["Science Fiction", "Sci-fi essentials"], ["Animated", "Animation favorites"], ["Horror", "Horror to rank"],
-  ["Comedy", "Comedies"], ["Crime", "Crime & gangsters"], ["Romance", "Romance"], ["Superhero", "Superheroes"], ["Western", "Westerns"],
+  ["Science Fiction", "Sci-fi to rank"], ["Animated", "Animation favorites"], ["Horror", "Horror"], ["Comedy", "Comedies"],
+  ["Crime", "Crime & gangsters"], ["Romance", "Romance"], ["Superhero", "Superheroes"], ["Western", "Westerns"],
+  ["Thriller", "Thrillers"], ["Drama", "Dramas"], ["Action", "Action"], ["Adventure", "Adventures"], ["Fantasy", "Fantasy"],
+  ["Mystery", "Mysteries"], ["Musical", "Musicals"], ["War", "War films"], ["Noir", "Film noir"], ["Biography", "True stories"],
+  ["Family", "Family night"], ["Sports", "Sports films"],
 ];
+const RAILS_PER_VISIT = 6;
+
+// A different set of genre rows each visit, leaning toward genres the user scores highly.
+function pickGenreRails() {
+  const aff = S.me ? genreAffinity(myRows(), genres().length) : [];
+  const weighted = GENRE_RAILS.map((r) => [Math.exp(Math.max(-2, Math.min(3, (aff[genres().indexOf(r[0])] || 0) / 2))) * (0.5 + Math.random()), r]);
+  return weighted.sort((a, b) => b[0] - a[0]).slice(0, RAILS_PER_VISIT).map((x) => x[1]);
+}
 
 export async function renderDiscover(view) {
   const me = S.me;
@@ -25,7 +38,10 @@ export async function renderDiscover(view) {
       : `<div class="hero compact"><div><h1>Discover</h1><p>${rankedCount()} ranked · ${avgScore().toFixed(1)} average. Find your next favorite.</p></div>
           <div class="row"><button class="btn primary" data-act="quick-add">${ICON.plus} Rank a film</button><a class="btn" href="#/together">${ICON.users} Watch together</a></div></div>`;
 
-  const topLoved = me && S.lists.loved[0] != null ? film(S.lists.loved[0]) : null;
+  beginPage();
+  if (me) pickQuick();
+  const favorites = me ? S.lists.loved.slice(0, 6) : [];
+  const topLoved = favorites.length ? film(favorites[Math.floor(Math.random() * favorites.length)]) : null;
   const exclude = me ? notNewIds() : null;
   view.innerHTML = `${hero}
     <a class="searchbar fake" href="#/search">${ICON.search}<span>Search films or people</span></a>
@@ -33,23 +49,45 @@ export async function renderDiscover(view) {
     ${me && n >= 3 ? sectionHTML("Recommended for you", "Based on the genres you score highest", railHTML(recommendFor(18))) : ""}
     <div id="friends-trending"></div>
     <div id="top-movi"></div>
-    ${topLoved ? sectionHTML(`Because you loved ${esc(topLoved.title)}`, "Similar genres and era", railHTML(similarFilms(topLoved, 16))) : ""}
-    ${GENRE_RAILS.map(([g, t]) => sectionHTML(t, "", railHTML(topByGenre(g, 20, exclude)), `<a class="link" href="#/search?genre=${encodeURIComponent(g)}">See all</a>`)).join("")}`;
-  if (me) renderQuick();
+    ${topLoved ? sectionHTML(`Because you loved ${esc(topLoved.title)}`, "Similar genres and era", railHTML(similarFilms(topLoved, 16, { vary: true }))) : ""}
+    ${pickGenreRails().map(([g, t]) => sectionHTML(t, "", railHTML(sample(byPopularity(topByGenre(g, 160, exclude), 1.3), 20)), `<a class="link" href="#/search?genre=${encodeURIComponent(g)}">See all</a>`)).join("")}`;
+  if (me) drawQuick();
   loadTrending();
 }
 
 // Films the user has ranked or said they're not interested in never appear as suggestions.
 const notNewIds = () => new Set([...rankedIds(), ...S.skip]);
 
-export function renderQuick() {
+let quickIds = [];
+const QUICK_COUNT = 12;
+const quickTaken = () => new Set([...rankedIds(), ...S.watch.map((w) => w.film_id), ...S.skip]);
+const quickPool = (taken) => byPopularity(searchFilms({}).filter((f) => !taken.has(f.id)).slice(0, 450));
+
+function pickQuick() {
+  quickIds = sample(quickPool(quickTaken()), QUICK_COUNT).map((f) => f.id);
+}
+
+function drawQuick() {
   const el = $("#quick");
   if (!el) return;
-  const taken = new Set([...rankedIds(), ...S.watch.map((w) => w.film_id), ...S.skip]);
-  const picks = searchFilms({}).filter((f) => !taken.has(f.id)).slice(0, 12);
   const acts = (f) => ({ acts: `<div class="acts"><button data-act="rank" data-id="${f.id}">Seen it</button><button data-act="watch" data-id="${f.id}">Save</button><button data-act="skip" data-id="${f.id}" aria-label="Not interested">Skip</button></div>` });
-  el.innerHTML = `<div class="section-head"><div><h2>Seen any of these?</h2><p>Rank what you've watched, save what you want to. The fastest way to build your list.</p></div></div>
-    <div class="grid">${picks.map((f) => cardHTML(f, acts(f))).join("")}</div>`;
+  el.innerHTML = `<div class="section-head"><div><h2>Seen any of these?</h2><p>Rank what you've watched, save what you want to. The fastest way to build your list.</p></div>
+      <button class="btn sm ghost" data-act="shuffle-quick">${ICON.repeat} Shuffle</button></div>
+    <div class="grid">${quickIds.map((id) => cardHTML(film(id), acts(film(id)))).join("")}</div>`;
+}
+
+export function shuffleQuick() {
+  pickQuick();
+  drawQuick();
+}
+
+// After Save / Skip / ranking: swap out only the cards that no longer belong, keeping the rest in place.
+export function refreshQuick() {
+  const taken = quickTaken();
+  const keep = new Set(quickIds.filter((id) => !taken.has(id)));
+  const fresh = sample(quickPool(new Set([...taken, ...keep])), QUICK_COUNT - keep.size).map((f) => f.id);
+  quickIds = quickIds.map((id) => (keep.has(id) ? id : fresh.shift())).filter((id) => id != null);
+  drawQuick();
 }
 
 async function loadTrending() {
@@ -61,7 +99,7 @@ async function loadTrending() {
   const topNew = top.filter((t) => !hide.has(t.film_id));
   const tbox = $("#top-movi");
   if (tbox && topNew.length) {
-    tbox.innerHTML = sectionHTML("Top rated on Movi", "Highest average score across members", railHTML(topNew.map((t) => film(t.film_id)).filter(Boolean), (f) => {
+    tbox.innerHTML = sectionHTML("Top rated on Movi", "Highest average score across members", railHTML(takeUnused(topNew.map((t) => film(t.film_id)).filter(Boolean), 20), (f) => {
       const t = top.find((x) => x.film_id === f.id);
       return { label: `${Number(t.avg_score).toFixed(1)} avg · ${t.n} members` };
     }));
@@ -76,9 +114,9 @@ async function loadTrending() {
     e.n++; e.sum += Number(r.score);
     agg.set(r.film_id, e);
   }
-  const list = [...agg.values()].sort((a, b) => b.n - a.n || b.sum / b.n - a.sum / a.n).slice(0, 18);
+  const list = [...agg.values()].sort((a, b) => b.n - a.n || b.sum / b.n - a.sum / a.n).slice(0, 40);
   if (list.length) {
-    fbox.innerHTML = sectionHTML("Trending with friends", `What the ${followingIds().length} people you follow ranked lately`, railHTML(list.map((e) => film(e.id)), (f) => {
+    fbox.innerHTML = sectionHTML("Trending with friends", `What the ${followingIds().length} people you follow ranked lately`, railHTML(takeUnused(list.map((e) => film(e.id)), 18), (f) => {
       const e = agg.get(f.id);
       return { label: `${e.n} friend${e.n === 1 ? "" : "s"} · ${(e.sum / e.n).toFixed(1)} avg` };
     }));

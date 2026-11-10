@@ -1,12 +1,12 @@
 import { $, esc, ICON, toast } from "./util.js";
 import { loadFilms, film, isFilmId } from "./films.js";
 import { initApi, api } from "./api/index.js";
-import { S, loadSession, clearSession, signedIn, addWatch, removeWatch, skipFilm, removeRanking, follow, unfollow, removeFollower, refreshUnread } from "./state.js";
+import { S, rankedIds, loadSession, clearSession, signedIn, addWatch, removeWatch, skipFilm, removeRanking, follow, unfollow, removeFollower, refreshUnread } from "./state.js";
 import { avatarHTML, closeModal, modalOpen, confirmDialog, spinnerHTML, emptyHTML } from "./ui.js";
 import { openFilm, closeFilm, refreshFilm, recommendDialog, shareFilm, sheetFilmId } from "./film-sheet.js";
 import { startRank, cancelRank, flowActive, flowAction, flowKey, quickAdd, quickPick, requireMe, setFlowDoneHandler } from "./rank-flow.js";
 import { renderFeed, feedMore, toggleLike, toggleComments, deleteComment, followBtnHTML } from "./views/feed.js";
-import { renderDiscover, renderSearch, drawResults, moreResults } from "./views/discover.js";
+import { renderDiscover, renderSearch, drawResults, moreResults, refreshQuick, shuffleQuick } from "./views/discover.js";
 import { renderLists, shareList } from "./views/lists.js";
 import { renderProfile, showFollows, shareProfile } from "./views/profile.js";
 import { renderLeaderboard, renderNotifications, renderPeople, renderTogether, handleRequest } from "./views/social.js";
@@ -117,8 +117,11 @@ document.addEventListener("movi:signedout", () => { clearSession(); go("#/welcom
 // ---------------- Refresh after changes ----------------
 function softRefresh() {
   const n = current?.name;
-  if (n === "discover") rerender();
-  else if (n === "search") drawResults();
+  if (n === "discover") {
+    refreshQuick();
+    const gone = new Set([...rankedIds(), ...S.skip]);
+    document.querySelectorAll("#view .rail .card .hit").forEach((b) => { if (gone.has(Number(b.dataset.film))) b.closest(".card").remove(); });
+  } else if (n === "search") drawResults();
   else if (["lists", "onboarding", "together"].includes(n) || (n === "u" && current.args[0] === S.me?.username)) rerender();
   refreshFilm();
 }
@@ -178,6 +181,7 @@ async function act(name, el) {
       el.closest(".post")?.remove();
       return;
     }
+    case "shuffle-quick": return shuffleQuick();
     case "feed-more": return feedMore();
     case "more": return moreResults();
     case "follow": {
