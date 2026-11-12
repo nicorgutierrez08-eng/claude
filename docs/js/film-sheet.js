@@ -129,7 +129,7 @@ function sheetHTML(f, data = null, animate = true) {
     if (rest.length) people += `<div class="film-more"><div class="section-head"><h2>${friends.length ? "Others on Movi" : "On Movi"}</h2></div><div class="whos">${rest.slice(0, 8).map(row).join("")}</div></div>`;
   }
 
-  const more = similarFilms(f);
+  const more = data ? (data.more ||= similarFilms(f, 14, { vary: true })) : [];
   return `<div class="scrim" data-act="close-film"${anim}></div>
     <div class="panel" role="dialog" aria-modal="true" aria-label="${esc(f.title)}"${anim}>
       ${img ? `<div class="backdrop"><img src="${esc(img)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()"></div>` : ""}

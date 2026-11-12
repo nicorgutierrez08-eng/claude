@@ -4,7 +4,7 @@ import { api } from "../api/index.js";
 import { S, rankedIds, rankedCount, avgScore, loadFriendRows, followingIds, myRows } from "../state.js";
 import { cardHTML, railHTML, sectionHTML, emptyHTML, userRowHTML, spinnerHTML } from "../ui.js";
 import { recommendFor, similarFilms } from "../film-sheet.js";
-import { beginPage, sample, byPopularity, takeUnused } from "../variety.js";
+import { beginPage, sample, byPopularity } from "../variety.js";
 import { genreAffinity } from "../model.js";
 import { followBtnHTML } from "./feed.js";
 
@@ -92,14 +92,14 @@ export function refreshQuick() {
 
 async function loadTrending() {
   const [top, friendRows] = await Promise.all([
-    api.topFilms(2, 60).catch(() => []),
+    api.topFilms(2, 100).catch(() => []),
     S.me ? loadFriendRows().catch(() => []) : [],
   ]);
   const hide = S.me ? notNewIds() : new Set();
   const topNew = top.filter((t) => !hide.has(t.film_id));
   const tbox = $("#top-movi");
   if (tbox && topNew.length) {
-    tbox.innerHTML = sectionHTML("Top rated on Movi", "Highest average score across members", railHTML(takeUnused(topNew.map((t) => film(t.film_id)).filter(Boolean), 20), (f) => {
+    tbox.innerHTML = sectionHTML("Top rated on Movi", "Highest average score across members", railHTML(sample(topNew.filter((t) => film(t.film_id)).map((t) => [Math.exp((Number(t.avg_score) - Number(topNew[0].avg_score)) / 1.2) * Math.log2(1 + Number(t.n)), film(t.film_id)]), 18), (f) => {
       const t = top.find((x) => x.film_id === f.id);
       return { label: `${Number(t.avg_score).toFixed(1)} avg · ${t.n} members` };
     }));
@@ -114,9 +114,9 @@ async function loadTrending() {
     e.n++; e.sum += Number(r.score);
     agg.set(r.film_id, e);
   }
-  const list = [...agg.values()].sort((a, b) => b.n - a.n || b.sum / b.n - a.sum / a.n).slice(0, 40);
+  const list = [...agg.values()].sort((a, b) => b.n - a.n || b.sum / b.n - a.sum / a.n).slice(0, 120);
   if (list.length) {
-    fbox.innerHTML = sectionHTML("Trending with friends", `What the ${followingIds().length} people you follow ranked lately`, railHTML(takeUnused(list.map((e) => film(e.id)), 18), (f) => {
+    fbox.innerHTML = sectionHTML("Trending with friends", `What the ${followingIds().length} people you follow ranked lately`, railHTML(sample(list.map((e) => [Math.pow(e.n, 1.3) * (e.sum / e.n / 10 + 0.3), film(e.id)]), 16), (f) => {
       const e = agg.get(f.id);
       return { label: `${e.n} friend${e.n === 1 ? "" : "s"} · ${(e.sum / e.n).toFixed(1)} avg` };
     }));

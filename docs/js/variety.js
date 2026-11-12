@@ -25,13 +25,6 @@ export function beginPage() {
   recent = loadRecent();
 }
 
-// For rows built from data rather than sampling (top rated, trending): skip films already shown above.
-export function takeUnused(films, n) {
-  const out = films.filter((f) => !usedOnPage.has(f.id)).slice(0, n);
-  out.forEach((f) => usedOnPage.add(f.id));
-  return out;
-}
-
 // candidates: [weight, film][]; returns up to n films, sampled without replacement by weight.
 export function sample(candidates, n) {
   const pool = [];
